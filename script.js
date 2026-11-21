@@ -31,17 +31,44 @@ function updatePage() {
     }
 }
 
-document.getElementById("nextBtn").addEventListener("click", () => {
+function nextPage() {
     if (currentPage < pages.length - 1) {
         currentPage++;
         updatePage();
     }
-});
+}
 
-document.getElementById("prevBtn").addEventListener("click", () => {
+function prevPage() {
     if (currentPage > 0) {
         currentPage--;
         updatePage();
+    }
+}
+
+document.getElementById("nextBtn")
+    .addEventListener("click", nextPage);
+
+document.getElementById("prevBtn")
+    .addEventListener("click", prevPage);
+
+// Swipe support for phones
+
+let touchStartX = 0;
+let touchEndX = 0;
+
+document.addEventListener("touchstart", (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+});
+
+document.addEventListener("touchend", (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+
+    if (touchEndX < touchStartX - 50) {
+        nextPage();
+    }
+
+    if (touchEndX > touchStartX + 50) {
+        prevPage();
     }
 });
 
